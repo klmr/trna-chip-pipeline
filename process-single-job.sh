@@ -12,31 +12,29 @@ declare -A paths=(
     [trna-peak-calling]=peaks
 )
 
-SHELL="echo $SHELL"
-
 perform() {
     action="$1"
-    input="${2-../$experiment}"
+    input="$(abspath "${2-../$experiment}")"
     output="${3-$experiment}"
     if exists $action in paths; then
         md "${paths[$action]}"
     fi
 
-    # FIXME Also provide project environment (base path, data path) because some
-    # tools need it (e.g. BWA for the reference genome location), as environment
-    # variables.
+    echo >&2
+    echo >&2 "$action $input $output"
     $SHELL "$toolpath/$action.sh" "$input" "$output"
 }
 
-if [[ "$filename" == *.gz ]]; then
-    filename="${filename%.gz}"
-    $SHELL unpack-archived.sh "$filename.gz" "$filename"
-fi
+# No need for this -- downstream tools can work with gzipped files.
+#if [[ "$filename" == *.gz ]]; then
+#    filename="${filename%.gz}"
+#    $SHELL unpack-archived.sh "$filename.gz" "$filename"
+#fi
 
 perform filter-quality "$filename"
 
 # Subshell to restore path afterwards
-(perform qc-report)
+(perform qc-report "$filename")
 
 perform map-reads
 

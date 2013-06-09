@@ -6,12 +6,16 @@ abort() {
     exit 1
 }
 
+abspath() {
+    readlink -m "$@"
+}
+
 realpath() {
-    dirname "$(readlink -m "$*")"
+    dirname "$(abspath "$@")"
 }
 
 md() {
-    echo $(pwd) '->' $*
+    echo >&2 $(pwd) '->' $*
     mkdir -p "$*" && cd "$*"
 }
 

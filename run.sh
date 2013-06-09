@@ -15,18 +15,18 @@ project_base="$(realpath "$project_config")"
 project_config="$project_base/$(basename "$project_config")"
 
 project_name=$(read_conf project name)
-project_data_dir=$(read_conf project data_dir)
+project_data_dir="$project_base/$(read_conf project data_dir)"
 
 # Set up environment.
 export project_config project_name project_base project_data_dir
-export -f abort realpath md exists read_conf
+export -f abort abspath realpath md exists read_conf
 source "$thispath/tools-setup.sh"
 
-eval "declare -A libraries=($(read_conf_section "$project_config" data))"
+eval "declare -A libraries=($(read_config_section "$project_config" data))"
 
 md "$project_base/$output"
 
 for lib in "${!libraries[@]}"; do
-    filename="${libraries[$lib]}"
+    filename="$project_data_dir/${libraries[$lib]}"
     process $lib "$filename"
 done
