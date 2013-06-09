@@ -22,14 +22,11 @@ export project_config project_name project_base project_data_dir
 export -f abort realpath md exists read_conf
 source "$thispath/tools-setup.sh"
 
-# ...
+eval "declare -A libraries=($(read_conf_section "$project_config" data))"
 
 md "$project_base/$output"
 
-library=(do1234)
-
-for experiment in "${library[@]}"; do
-    filename=...
-    filename=foo.fa
-    process $experiment "$filename"
+for lib in "${!libraries[@]}"; do
+    filename="${libraries[$lib]}"
+    process $lib "$filename"
 done

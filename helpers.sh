@@ -32,6 +32,12 @@ read_config_value() {
     $thispath/parse_config read "$config_file" "$section" "$value"
 }
 
+read_config_section() {
+    config_file="$1"
+    section="$2"
+    $thispath/parse_config read "$config_file" "$section"
+}
+
 read_conf() {
     read_config_value "$project_config" "$1" "$2"
 }
