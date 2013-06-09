@@ -28,5 +28,5 @@ read_config_value() {
 }
 
 read_conf() {
-    read_config_value "$config" project "$1"
+    read_config_value "$config" "$1" "$2"
 }
