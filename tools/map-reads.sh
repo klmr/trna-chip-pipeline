@@ -1,14 +1,12 @@
 # Map short-read library to reference
 input="$1"
 output="$2"
-reference="$(read_conf map-reads reference)"
-bwa=/ebi/research/software/Linux_x86_64/bin/bwa
-samtools=/ebi/research/software/Linux_x86_64/bin/samtools
+reference="$(read_conf $0 reference)"
 
 if [ ! -s "$output.sai" ]; then
-    $bwa aln -t 4 "$reference" "$input" > "$output.sai" ||
+    bwa aln -t 4 "$reference" "$input.fa.gz" > "$output.sai" ||
         abort "Abort after failing to create $output.sai"
 fi
 
-$bwa samse -n 50 "$reference" "$output.sai" "$input" |
-    $samtools view -Sb -T "$reference.fa" - > "$output.bam"
+bwa samse -n 50 "$reference" "$output.sai" "$input.fa.gz" |
+    samtools view -Sb -T "$reference.fa" - > "$output.bam"
