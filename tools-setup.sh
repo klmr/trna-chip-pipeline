@@ -8,4 +8,8 @@ samtools() {
     "$toolpath/samtools" "$@"
 }
 
-export -f bwa samtools
+reaper() {
+    /homes/nenad/local/bin/reaper "$@"
+}
+
+export -f bwa samtools reaper
