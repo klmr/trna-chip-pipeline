@@ -19,6 +19,7 @@ project_data_dir=$(read_conf project data_dir)
 
 # Set up environment.
 export project_config project_name project_base project_data_dir
+export -f abort realpath md exists read_conf
 
 # ...
 

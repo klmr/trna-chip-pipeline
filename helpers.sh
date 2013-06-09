@@ -1,6 +1,11 @@
 set -e
 set -u
 
+abort() {
+    echo >&2 "$@"
+    exit 1
+}
+
 realpath() {
     dirname "$(readlink -m "$*")"
 }
@@ -28,5 +33,5 @@ read_config_value() {
 }
 
 read_conf() {
-    read_config_value "$config" "$1" "$2"
+    read_config_value "$project_config" "$1" "$2"
 }
