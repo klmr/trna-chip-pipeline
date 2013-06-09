@@ -70,29 +70,8 @@ def parse_conf(file):
 
 def read(args):
     (file, section, search_key) = args
-    #lines = map(str.strip, open(file, 'r').read().split('\n'))
     config = parse_conf(file)
     return config[section][search_key]
-
-def unused():
-    any_section = re.compile('^\[.*?\]$')
-    target_section = re.compile('^\[{}\]$'.format(section))
-
-    in_section = False
-    for line in lines:
-        if line.startswith('#'):
-            continue
-        if in_section:
-            if any_section.match(line):
-                break
-            else:
-                key, value = map(str.strip, line.split('='))
-                if key == search_key:
-                    return value
-        elif target_section.match(line):
-            in_section = True
-
-    return None
 
 
 def main():
