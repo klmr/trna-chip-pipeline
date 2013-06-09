@@ -43,7 +43,7 @@ def parse_conf(file):
     sections = {}
     current_section = None
     for line in lines:
-        if line.startswith('#'):
+        if line.startswith('#') or line == '':
             continue
         header_match = section_header.match(line)
         if header_match:
@@ -56,7 +56,7 @@ def parse_conf(file):
     # Patch the values: substitute variables by their values
     already_replaced_values = set()
     for header, content in sections.items():
-        for key in section.keys():
+        for key in content.keys():
             resolve_value(sections, header, key, already_replaced_values)
 
 
