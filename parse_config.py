@@ -22,8 +22,11 @@ variable = re.compile('\$(\w+)|\$\{(\w+)(?::(\w+))?\}|\$\$')
 def resolve_value(sections, section, key, already_replaced_values):
     # TODO Offer error diagnostics for circular variable replacements.
     def resolver(match):
+        # The variable is either simple (group(1)) or complex and qualified
+        # (group(3)) or unqualified (group(2)) by a section name.
         var = match.group(1) or match.group(3) or match.group(2)
         if var is None:
+            # No variable but escaped '$$'
             return '$'
         else:
             var_section = match.group(2) if match.group(3) else section
@@ -34,7 +37,9 @@ def resolve_value(sections, section, key, already_replaced_values):
         return value
     else:
         already_replaced_values.add((section, key))
-        sections[section][key] = variable.sub(resolver, value)
+        resolved = variable.sub(resolver, value)
+        sections[section][key] = resolved
+        return resolved
 
 
 def parse_conf(file):
