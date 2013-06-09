@@ -69,9 +69,27 @@ def parse_conf(file):
 
 
 def read(args):
-    (file, section, search_key) = args
+    file = args.pop(0)
     config = parse_conf(file)
-    return config[section][search_key]
+
+    if len(args) == 2:
+        (section, key) = args
+        return config[section][key]
+    else:
+        section = args[0]
+        return config[section]
+
+
+def bashprint(value):
+    def escape(v):
+        return v.replace("'", "'\"'\"'")
+
+    if isinstance(value, str):
+        print value
+    elif any(isinstance(value, t) for t in (list, set, tuple)):
+        print '\n'.join("'{}'".format(escape(v)) for v in value)
+    elif isinstance(value, dict):
+        print '\n'.join("['{}']='{}'".format(escape(k), escape(v)) for k, v in value.items())
 
 
 def main():
@@ -84,7 +102,7 @@ def main():
     result = action(sys.argv[2 : ])
 
     if result:
-        print result
+        bashprint(result)
         return 0
     else:
         return 1
