@@ -1,4 +1,3 @@
-java_path="/ebi/research/software/Linux_x86_64/opt/java/jdk1.6/bin/java"
 input="$1"
 output="$2"
 
