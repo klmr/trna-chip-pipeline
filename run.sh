@@ -27,6 +27,10 @@ eval "declare -A libraries=($(read_config_section "$project_config" data))"
 md "$project_base/$output"
 
 for lib in "${!libraries[@]}"; do
-    filename="$project_data_dir/${libraries[$lib]}"
+    filename="${libraries[$lib]}"
+    # If path is relative, assume it's relative to project's data directory.
+    if [[ "$filename" != /* ]] && [[ "$filename" != ~* ]]; then
+        filename="$project_data_dir/$filename"
+    fi
     process $lib "$filename"
 done
