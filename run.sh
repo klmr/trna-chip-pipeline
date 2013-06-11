@@ -3,7 +3,7 @@
 source "$(dirname "$0")/helpers.sh"
 
 process () {
-    bsub -I "$SHELL $thispath/process-single-job.sh $1 \"$2\""
+    bsub -I -M 8000 -R'rusage[mem=8000]' "$SHELL $thispath/process-single-job.sh $1 \"$2\""
 }
 
 output=results
