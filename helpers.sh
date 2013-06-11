@@ -15,11 +15,10 @@ realpath() {
 }
 
 md() {
-    echo >&2 $(pwd) '->' $*
     mkdir -p "$*" && cd "$*"
 }
 
-thispath="$(realpath "$0")"
+export thispath="$(realpath "$0")"
 
 exists() {
     if [ "$2" != in ]; then

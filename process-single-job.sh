@@ -14,14 +14,15 @@ declare -A paths=(
 
 perform() {
     action="$1"
-    input="$(abspath "${2-../$experiment}")"
-    output="${3-$experiment}"
     if exists $action in paths; then
         md "${paths[$action]}"
     fi
 
-    echo >&2
-    echo >&2 "$action $input $output"
+    input="${2-../$experiment}"
+    output="${3-$experiment}"
+
+    echo >&2 "[In directory $(pwd)]"
+    echo >&2 "[Perform $action $input $output]"
     $SHELL "$toolpath/$action.sh" "$input" "$output"
 }
 

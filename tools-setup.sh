@@ -1,13 +1,13 @@
-toolpath="/ebi/research/software/Linux_x86_64/bin"
+export project_toolpath="/ebi/research/software/Linux_x86_64/bin"
 
 # Use functions instead of aliases so we can export them.
 
 bwa() {
-    "$toolpath/bwa" "$@"
+    "$project_toolpath/bwa" "$@"
 }
 
 samtools() {
-    "$toolpath/samtools" "$@"
+    "$project_toolpath/samtools" "$@"
 }
 
 reaper() {

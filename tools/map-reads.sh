@@ -1,7 +1,7 @@
 # Map short-read library to reference
 input="$1"
 output="$2"
-reference="$(read_conf $0 reference)"
+reference="$project_data_dir/$(read_conf map-reads reference)"
 
 if [ ! -s "$output.sai" ]; then
     bwa aln -t 4 "$reference" "$input.lane.clean.gz" > "$output.sai" ||
