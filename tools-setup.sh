@@ -1,5 +1,6 @@
 toolpath="/ebi/research/software/Linux_x86_64/bin"
-java_path="/ebi/research/software/Linux_x86_64/opt/java/jdk1.6/bin/java"
+
+# Use functions instead of aliases so we can export them.
 
 bwa() {
     "$toolpath/bwa" "$@"
@@ -13,5 +14,8 @@ reaper() {
     /homes/nenad/local/bin/reaper "$@"
 }
 
-export java_path
-export -f bwa samtools reaper
+reallocateReads() {
+    "$thispath/../scripts/plugins/realloc-reads/reallocateReads" "$@"
+}
+
+export -f bwa samtools reaper reallocateReads
