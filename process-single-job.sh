@@ -9,7 +9,7 @@ declare -A paths=(
     [map-reads]=mapped
     [sort-and-index]=indexed
     [reallocate]=reallocated
-    [trna-peak-calling]=peaks
+    [trna-call-peaks]=peaks
 )
 
 perform() {
@@ -44,4 +44,4 @@ perform reallocate
 
 perform sort-and-index
 
-perform trna-peak-calling
+perform trna-call-peaks
