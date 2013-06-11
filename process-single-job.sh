@@ -45,4 +45,5 @@ perform reallocate
 
 perform sort-and-index
 
-perform trna-call-peaks
+# Not implemented yet
+#perform trna-call-peaks
