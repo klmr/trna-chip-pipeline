@@ -37,13 +37,13 @@ perform filter-quality "$filename"
 # Subshell to restore path afterwards
 (perform qc-report "$filename")
 
-perform map-reads
+#perform map-reads
 
-perform sort-and-index
+#perform sort-and-index
 
-perform reallocate
+#perform reallocate
 
-perform sort-and-index
+#perform sort-and-index
 
-# Not implemented yet
-#perform trna-call-peaks
+cd mapped/indexed/reallocated/indexed
+perform trna-call-peaks
