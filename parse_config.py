@@ -17,7 +17,7 @@ import re
 # `baz` will have the value `a` after substitution. Circular dependencies are
 # disallowed.
 
-variable = re.compile('\$(\w+)|\$\{(\w+)(?::(\w+))?\}|\$\$')
+VARIABLE = re.compile(r'\$(\w+)|\$\{(\w+)(?::(\w+))?\}|\$\$')
 
 def resolve_value(sections, section, key, already_replaced_values):
     # TODO Offer error diagnostics for circular variable replacements.
@@ -30,21 +30,22 @@ def resolve_value(sections, section, key, already_replaced_values):
             return '$'
         else:
             var_section = match.group(2) if match.group(3) else section
-            return resolve_value(sections, var_section, var, already_replaced_values)
+            return resolve_value(sections, var_section, var,
+                    already_replaced_values)
 
     value = sections[section][key]
     if (section, key) in already_replaced_values:
         return value
     else:
         already_replaced_values.add((section, key))
-        resolved = variable.sub(resolver, value)
+        resolved = VARIABLE.sub(resolver, value)
         sections[section][key] = resolved
         return resolved
 
 
 def parse_conf(file):
     lines = map(str.strip, open(file, 'r').read().split('\n'))
-    section_header = re.compile('^\[(.*?)\]$')
+    section_header = re.compile(r'^\[(.*?)\]$')
     sections = {}
     current_section = None
     for line in lines:
@@ -89,7 +90,9 @@ def bashprint(value):
     elif any(isinstance(value, t) for t in (list, set, tuple)):
         print '\n'.join("'{}'".format(escape(v)) for v in value)
     elif isinstance(value, dict):
-        print '\n'.join("['{}']='{}'".format(escape(k), escape(v)) for k, v in value.items())
+        print '\n'.join(
+                "['{}']='{}'".format(escape(k), escape(v))
+                for k, v in value.items())
 
 
 def main():
