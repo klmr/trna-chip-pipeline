@@ -12,6 +12,15 @@ declare -A paths=(
     [trna-call-peaks]=peaks
 )
 
+skip() {
+    action="$1"
+    if exists $action in paths; then
+        md "${paths[$action]}"
+    fi
+    echo >&2 "[In directory $(pwd)]"
+    echo >&2 "[Skipping $action]"
+}
+
 perform() {
     action="$1"
     if exists $action in paths; then
@@ -32,18 +41,17 @@ perform() {
 #    $SHELL unpack-archived.sh "$filename.gz" "$filename"
 #fi
 
-perform filter-quality "$filename"
+skip filter-quality "$filename"
 
 # Subshell to restore path afterwards
-(perform qc-report "$filename")
+(skip qc-report "$filename")
 
-#perform map-reads
+skip map-reads
 
-#perform sort-and-index
+skip sort-and-index
 
-#perform reallocate
+skip reallocate
 
-#perform sort-and-index
+skip sort-and-index
 
-cd mapped/indexed/reallocated/indexed
 perform trna-call-peaks
