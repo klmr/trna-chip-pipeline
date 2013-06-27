@@ -22,12 +22,12 @@ while read chr trna type from to rest; do
     # being only an insignificant difference between the two.
     # At the very least we need to ensure that a gene is expressed in NO
     # condition before calling it unexpressed anywhere.
-    #echo "$line	$(( ($over + $upstream + $downstream) / 3))"
-    if [ $over -gt 10 -a $upstream -gt 10 -a $downstream -gt 10 ]; then
-        echo "$line	$(( ($over + $upstream + $downstream) / 3))"
-    else
-        echo "$line	0"
-    fi
+    echo "$line	$(( ($over + $upstream + $downstream) / 3))"
+    #if [ $over -gt 10 -a $upstream -gt 10 -a $downstream -gt 10 ]; then
+    #    echo "$line	$(( ($over + $upstream + $downstream) / 3))"
+    #else
+    #    echo "$line	0"
+    #fi
     which_over=0
     if [ $over -gt 10 ]; then
         which_over=1
