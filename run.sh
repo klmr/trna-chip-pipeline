@@ -3,7 +3,8 @@
 source "$(dirname "$0")/helpers.sh"
 
 process () {
-    bsub -M 8000 -R'rusage[mem=8000]' "$SHELL $thispath/process-single-job.sh $1 \"$2\""
+    bsub -J "klmrppl_$1" -o "$project_base/$logs/$1.log" -e "$project_base/$logs/$1.err" \
+        -M 8000 -R'rusage[mem=8000]' "$SHELL $thispath/process-single-job.sh $1 \"$2\""
 }
 
 output=results
@@ -24,7 +25,11 @@ source "$thispath/tools-setup.sh"
 
 eval "declare -A libraries=($(read_config_section "$project_config" data))"
 
+mkdir -p "$project_base/$logs"
 md "$project_base/$output"
+
+# Concatenated string of all LSF job names to wait for.
+all_job_names=''
 
 for lib in "${!libraries[@]}"; do
     filename="${libraries[$lib]}"
@@ -32,5 +37,12 @@ for lib in "${!libraries[@]}"; do
     if [[ "$filename" != /* ]] && [[ "$filename" != ~* ]]; then
         filename="$project_data_dir/$filename"
     fi
+    if [ "$all_job_names" == '' ]; then
+        all_job_names="done(klmrppl_$lib)"
+    else
+        all_job_names="$all_job_names && done(klmrppl_$lib)"
+    fi
     process $lib "$filename"
 done
+
+bsub -w "$all_job_names" -J 'klmrpp_wait' "echo Project $project_config completed."
