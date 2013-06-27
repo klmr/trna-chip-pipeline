@@ -20,4 +20,4 @@ Tools should be platform agnostic. For instance, `map-reads` calls the tool `bwa
 
 ### `tools-setup.sh`
 
-Contains the configuration of the path environment; for instance, this may define an alias `bwa` which resolves to the current machine’s copy of the BWA binary.
+Contains the configuration of the path environment; for instance, this may define (and export) a function `bwa` which resolves to the current machine’s copy of the BWA binary.
