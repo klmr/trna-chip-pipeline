@@ -41,17 +41,17 @@ perform() {
 #    $SHELL unpack-archived.sh "$filename.gz" "$filename"
 #fi
 
-skip filter-quality "$filename"
+perform filter-quality "$filename"
 
 # Subshell to restore path afterwards
-(skip qc-report "$filename")
+(perform qc-report "$filename")
 
-skip map-reads
+perform map-reads
 
-skip sort-and-index
+perform sort-and-index
 
-skip reallocate
+perform reallocate
 
-skip sort-and-index
+perform sort-and-index
 
 perform trna-call-peaks
