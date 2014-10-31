@@ -29,18 +29,13 @@ exists() {
 }
 
 read_config_value() {
-    config_file="$1"
-    section="$2"
-    value="$3"
-    $thispath/parse_config read "$config_file" "$section" "$value"
+    $thispath/parse_config read "$@"
 }
 
 read_config_section() {
-    config_file="$1"
-    section="$2"
-    $thispath/parse_config read "$config_file" "$section"
+    $thispath/parse_config read "$@"
 }
 
 read_conf() {
-    read_config_value "$project_config" "$1" "$2"
+    read_config_value "$project_config" "$@"
 }
