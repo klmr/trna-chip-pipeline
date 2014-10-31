@@ -73,12 +73,18 @@ def read(args):
     file = args.pop(0)
     config = parse_conf(file)
 
-    if len(args) == 2:
-        (section, key) = args
-        return config[section][key]
-    else:
-        section = args[0]
-        return config[section]
+    try:
+        if len(args) > 1:
+            (section, key) = args[0 : 2]
+            return config[section][key]
+        else:
+            section = args[0]
+            return config[section]
+    except KeyError:
+        if len(args) == 3:
+            return args[2]
+        else:
+            return None
 
 
 def bashprint(value):
