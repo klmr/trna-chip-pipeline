@@ -32,7 +32,9 @@ perform() {
 
     echo >&2 "[In directory $(pwd)]"
     echo >&2 "[Perform $action $input $output]"
-    $SHELL "$toolpath/$action.sh" "$input" "$output"
+    set -x
+    $SHELL -x "$toolpath/$action.sh" "$input" "$output"
+    set +x
 }
 
 # No need for this -- downstream tools can work with gzipped files.
