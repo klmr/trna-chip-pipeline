@@ -38,4 +38,4 @@ for lib in "${!libraries[@]}"; do
     process $lib "$filename"
 done
 
-bsub -w "klmrppl_*" -J 'klmrpp_wait' "echo Project $project_config completed."
+bsub -w "ended(klmrppl_*)" -J 'klmrpp_wait' "echo Project $project_config completed."
