@@ -5,8 +5,13 @@ annotation="$project_data_dir/$(read_conf trna-call-peaks annotation)"
 
 # Read individual parts and reconstruct line in order to get rid of excess
 # whitespace.
-while read chr trna type from to rest; do
-    line="$chr	$trna	$type	$from	$to	$rest"
+
+# OLD FORMAT:
+# chr1	 .trna1000	AspGTC 	172995560	172995489	  Asp 	GTC	 72 bp  Sc: 72.92
+# NEW FORMAT (tRNAScan-SE native):
+# 1	284	78297795	78297866	Pro	AGG	0	0	48.57	Bo
+while read chr trna from to rest; do
+    line="$chr	$trna	$from	$to	$rest"
     if [ $from -gt $to ]; then
         tmp=$from
         from=$to
